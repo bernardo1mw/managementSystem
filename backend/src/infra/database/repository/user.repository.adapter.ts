@@ -17,9 +17,19 @@ export class UserRepositoryTypeORMAdapter implements UserRepository {
     }>,
   ): Promise<User | null> {
     const repository = this.connection.getRepository(UserEntity);
-    const user = await repository.findOne({
-      where: input,
-    });
+
+    const query = repository.createQueryBuilder('users');
+    for (const key in input) {
+      const i = Object.keys(input).indexOf(key);
+      if (Object.prototype.hasOwnProperty.call(input, key)) {
+        const value = input[key];
+        query
+          .andWhere(`users.${key} = :value_${i}`)
+          .setParameter(`value_${i}`, value);
+      }
+    }
+    const user = await query.getOne();
+
     if (!user) return null;
     return User.buildExistingUser({
       id: user.id,

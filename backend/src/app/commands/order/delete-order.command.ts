@@ -8,10 +8,9 @@ export class DeleteOrderCommand implements Command {
   async execute(
     input: DeleteOrderCommand.Input,
   ): Promise<DeleteOrderCommand.Output> {
-    const { customerId, orderId } = input;
+    const { orderId } = input;
 
     const order = await this.ordersRepository.findOneBy({
-      customerId,
       id: orderId,
     });
 
@@ -19,13 +18,12 @@ export class DeleteOrderCommand implements Command {
 
     order.delete();
 
-    await this.ordersRepository.save(order);
+    await this.ordersRepository.delete(order);
   }
 }
 
 export namespace DeleteOrderCommand {
   export type Input = {
-    customerId: number;
     orderId: number;
   };
   export type Output = void;

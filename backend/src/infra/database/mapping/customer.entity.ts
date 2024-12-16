@@ -23,7 +23,7 @@ export class CustomerEntity {
   @Column({ name: 'business_name', type: 'varchar', length: 255 })
   businessName: string;
 
-  @Column({ name: 'document', type: 'varchar', length: 14, unique: true })
+  @Column({ name: 'document', type: 'varchar', length: 14 })
   document: string;
 
   @Column({ type: 'varchar', length: 255 })

@@ -6,8 +6,10 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Link from "next/link";
+import { useAuth } from "./AuthContext";
 
 const Navbar = () => {
+  const { isAuthenticated } = useAuth();
   return (
     <AppBar position="static" sx={{ marginBottom: "2rem" }}>
       <Toolbar>
@@ -34,6 +36,36 @@ const Navbar = () => {
               Pedidos
             </Button>
           </Link>
+          {isAuthenticated ? (
+            <>
+              <Typography>
+                {" "}
+                Bem vindo {localStorage.getItem("email")}
+              </Typography>
+              <Link href="/signin" passHref>
+                <Button
+                  color="inherit"
+                  sx={{ textTransform: "none" }}
+                  onClick={() => localStorage.clear()}
+                >
+                  Logout
+                </Button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link href="/signin" passHref>
+                <Button color="inherit" sx={{ textTransform: "none" }}>
+                  Login
+                </Button>
+              </Link>
+              <Link href="/signup" passHref>
+                <Button color="inherit" sx={{ textTransform: "none" }}>
+                  Registrar
+                </Button>
+              </Link>
+            </>
+          )}
         </Box>
       </Toolbar>
     </AppBar>
@@ -41,3 +73,38 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+/**
+ * 
+ * 
+ * {localStorage.getItem("email") ? (
+            <>
+              <Typography>
+                {" "}
+                Bem vindo {localStorage.getItem("email")}
+              </Typography>
+              <Link href="/signin" passHref>
+                <Button
+                  color="inherit"
+                  sx={{ textTransform: "none" }}
+                  onClick={() => localStorage.clear()}
+                >
+                  Logout
+                </Button>
+              </Link>
+            </>
+          ) : (
+            <>
+              <Link href="/signin" passHref>
+                <Button color="inherit" sx={{ textTransform: "none" }}>
+                  Login
+                </Button>
+              </Link>
+              <Link href="/signup" passHref>
+                <Button color="inherit" sx={{ textTransform: "none" }}>
+                  Registrar
+                </Button>
+              </Link>
+            </>
+          )}
+ */

@@ -8,6 +8,40 @@ import Order from 'src/domain/entities/Order';
 export class CustomerRepositoryTypeORMAdapter implements CustomerRepository {
   constructor(private readonly connection: DataSource) {}
 
+  async findOneBy(
+    input: Partial<{
+      id: number;
+      uuid: string;
+      userId: number;
+      businessName: string;
+      document: string;
+      email: string;
+    }>,
+  ): Promise<Customer | null> {
+    const repository = this.connection.getRepository(CustomerEntity);
+    const query = repository.createQueryBuilder('customers');
+    for (const key in input) {
+      const i = Object.keys(input).indexOf(key);
+      if (Object.prototype.hasOwnProperty.call(input, key)) {
+        const value = input[key];
+        query
+          .andWhere(`customers.${key} = :value_${i}`)
+          .setParameter(`value_${i}`, value);
+      }
+    }
+    const customer = await query.getOne();
+
+    if (!customer) return null;
+
+    return new Customer({
+      id: customer.id,
+      businessName: customer.businessName,
+      document: customer.document,
+      email: new Email(customer.email),
+      createdAt: customer.createdAt,
+    });
+  }
+
   async save(customer: Customer): Promise<void> {
     const repository = this.connection.getRepository(CustomerEntity);
     const customerEntity = repository.create({

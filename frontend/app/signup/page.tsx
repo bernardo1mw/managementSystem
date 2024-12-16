@@ -1,33 +1,34 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Box, Button, TextField, Typography } from '@mui/material';
-import useCreateUser from "@/app/hooks/useCreateUser"
-import Link from 'next/link';
+import React, { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Box, Button, TextField, Typography } from "@mui/material";
+import Link from "next/link";
+import useUser from "@/app/hooks/useUser";
 
 const SignUp = () => {
-
   const {
-    email, 
-    password, 
-    confirmPassword, 
-    error, 
-    success,
+    email,
+    password,
+    confirmPassword,
     setEmail,
     setPassword,
     setConfirmPassword,
     handleSignup,
-  } = useCreateUser()
-
+  } = useUser();
 
   return (
-    <Box sx={{ maxWidth: 400, margin: '0 auto', textAlign: 'center', padding: '2rem' }}>
+    <Box
+      sx={{
+        maxWidth: 400,
+        margin: "0 auto",
+        textAlign: "center",
+        padding: "2rem",
+      }}
+    >
       <Typography variant="h4" gutterBottom>
         Criar Conta
       </Typography>
-      {error && <Typography color="error">{error}</Typography>}
-      {success && <Typography color="primary">{success}</Typography>}
       <form onSubmit={handleSignup}>
         <TextField
           label="E-mail"
@@ -57,11 +58,17 @@ const SignUp = () => {
         </Button>
       </form>
 
-      <div className='my-1'>
+      <div className="my-1">
         <Link href="/signin">
-            <Button size='small' variant="text" color="primary" fullWidth type="submit">
-              Entrar
-            </Button>
+          <Button
+            size="small"
+            variant="text"
+            color="primary"
+            fullWidth
+            type="submit"
+          >
+            Entrar
+          </Button>
         </Link>
       </div>
     </Box>

@@ -50,33 +50,33 @@ const ProductsPage = () => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell></TableCell>
-            <TableCell>ID</TableCell>
-            <TableCell>Descrição</TableCell>
-            <TableCell>Preço</TableCell>
-            <TableCell>Estoque</TableCell>
-            <TableCell>Data de criação</TableCell>
+            <TableCell align="center" ></TableCell>
+            <TableCell align="center" >ID</TableCell>
+            <TableCell align="center" >Descrição</TableCell>
+            <TableCell align="center" >Preço</TableCell>
+            <TableCell align="center" >Estoque</TableCell>
+            <TableCell align="center" >Data de criação</TableCell>
             <TableCell align="center" >Ações</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {products.map((product: any) => (
             <TableRow key={product.id}>
-              <TableCell>
+              <TableCell align="center" >
                 <Avatar
                   src={`${ENV.NEXT_PUBLIC_API_URL}/${product.images[0]}` || "/default-image.png"}
                   alt={product.description}
                   sx={{ width: 50, height: 50 }}
                 />
               </TableCell>
-              <TableCell>{product.id}</TableCell>
-              <TableCell>{product.description}</TableCell>
-              <TableCell>{product.price}</TableCell>
-              <TableCell>{product.stock}</TableCell>
-              <TableCell>
+              <TableCell align="center" >{product.id}</TableCell>
+              <TableCell align="center" >{product.description}</TableCell>
+              <TableCell align="center" >{product.price}</TableCell>
+              <TableCell align="center" >{product.stock}</TableCell>
+              <TableCell align="center" >
                 {dayjs(product.createdAt).format("DD/MM/YYYY")}
               </TableCell>
-              <TableCell>
+              <TableCell align="center" >
                 <Link href={`/products/${product.id}`} passHref>
                   <Button variant="outlined" sx={{ marginY: "0.5rem" ,marginX: "0.5rem" }}>
                     Editar

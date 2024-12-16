@@ -28,6 +28,7 @@ const CreateOrderPage = () => {
     handleCreateOrder,
     selectedCustomer,
     setSelectedCustomer,
+    handleQuantityChange
   } = useOrdersHook();
   const { customers, formatCNPJ } = useCustomersHook();
   const { products, selectedProduct, setSelectedProduct } = useProductsHook();
@@ -68,16 +69,19 @@ const CreateOrderPage = () => {
             ))}
           </TextField>
 
-          <TextField
+          {selectedProduct && <TextField
             type="number"
             label="Quantidade"
             value={quantity}
-            onChange={(e) => setQuantity(Math.max(Number(e.target.value), 1))}
+            onChange={(e) => handleQuantityChange(selectedProduct, e.target.value)}
             sx={{ width: "100px" }}
-          />
+          />}
           <Button
             variant="contained"
-            onClick={() => handleAddProduct(selectedProduct)}
+            onClick={() => {
+              handleAddProduct(selectedProduct)
+              setSelectedProduct(null)
+            }}
           >
             <AddIcon></AddIcon>
           </Button>

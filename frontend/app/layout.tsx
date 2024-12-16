@@ -3,9 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 import theme from "./theme";
-import AuthContext from "./components/AuthContext";
 import { NotificationProvider } from "./context/NotificationContext";
 import Navbar from "./components/NavBar";
+import { AuthProvider } from "./components/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,10 +31,10 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <NotificationProvider>
-          <AuthContext>
+          <AuthProvider>
             <Navbar/>
             {children}
-          </AuthContext>
+          </AuthProvider>
         </NotificationProvider>
       </body>
     </html>

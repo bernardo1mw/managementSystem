@@ -21,7 +21,6 @@ export function useOrdersHook() {
   const [selectedCustomer, setSelectedCustomer] = useState("");
   const [orderProducts, setOrderProducts] = useState<any>([]);
 
-
   const [newOrderForm, setNewOrderForm] = useState({
     description: "",
     price: "",
@@ -35,6 +34,14 @@ export function useOrdersHook() {
 
   const handleCreateOrder = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!selectedCustomer) {
+      showNotification("Por favor selecione um cliente", "error");
+      return;
+    }
+    if (orderProducts.length < 1) {
+      showNotification("O número de items deve ser maior que 0", "error");
+      return;
+    }
     createNewOrder();
   };
 
@@ -56,9 +63,9 @@ export function useOrdersHook() {
           return {
             productId: item.product.id,
             price: item.product.price,
-            quantity: item.quantity
-          }
-        })
+            quantity: item.quantity,
+          };
+        }),
       });
       await getOrders();
       showNotification("Pedido criado com sucesso", "success");
@@ -71,13 +78,14 @@ export function useOrdersHook() {
   };
 
   const handleDelete = async () => {
+    console.log(selectedOrder)
     try {
       setIsLoading(true);
       await deleteOrder(selectedOrder.id);
       await getOrders();
       showNotification("Produto deletado com sucesso", "success");
     } catch (err) {
-      showNotification(`${err} Falha ao deletar produto`, "error");
+      showNotification(`Falha ao deletar pedido`, "error");
     } finally {
       setIsDeleteModalOpen(false);
       setIsLoading(false);
@@ -94,7 +102,7 @@ export function useOrdersHook() {
     setIsOrderModalOpen(!isOrderModalOpen);
   };
 
-  const handleAddProduct = ( product: any ) => {
+  const handleAddProduct = (product: any) => {
     if (!product || quantity <= 0) return;
 
     // Check if product is already in the order
@@ -113,14 +121,22 @@ export function useOrdersHook() {
 
   const handleView = async (orderId: number) => {
     try {
-      const response = await fetchOrder(orderId)
-      setSelectedOrder(response)
-      setIsOrderModalOpen(!isOrderModalOpen)
+      const response = await fetchOrder(orderId);
+      setSelectedOrder(response);
+      setIsOrderModalOpen(!isOrderModalOpen);
     } catch (err) {
       showNotification(`${err} Falha ao buscar pedido`, "error");
     }
-  }
+  };
 
+  const handleQuantityChange = (product: any, quantity: any) => {
+    if (quantity < 1) {
+      showNotification("A quantidade deve ser maior que 0", "error");
+      return;
+    }
+
+    setQuantity(Math.min(Number(quantity), Number(product.stock)));
+  };
   return {
     isDeleteModalOpen,
     handleDeleteModal,
@@ -138,6 +154,7 @@ export function useOrdersHook() {
     setQuantity,
     handleAddProduct,
     handleView,
-    handleOrderModal
+    handleOrderModal,
+    handleQuantityChange,
   };
 }

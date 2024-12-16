@@ -12,4 +12,14 @@ export default interface CustomerRepository {
       email: string;
     }>,
   ): Promise<Customer[]>;
+  findOneBy(
+    input: Partial<{
+      id: number;
+      uuid: string;
+      userId: number;
+      businessName: string;
+      document: string;
+      email: string;
+    }>,
+  ): Promise<Customer | null>;
 }

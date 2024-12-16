@@ -34,12 +34,16 @@ export const signup = async (email: string, password: string) => {
   }
 }
 
-export const jwtAuthCheck = async () => {
+export const verify = async () => {
   try {
-    const response = await Axios.get(`/auth/verify`)
-    return response.data
+    await Axios.get(`/auth/verify`)
+    return true
   } catch (error) {
-    console.error(error)
-    throw new Error("Unable to check JWT Auth")
+    // console.error(error)
+    return false
   }
+}
+
+export const logout = () => {
+  localStorage.clear()
 }

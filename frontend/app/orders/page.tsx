@@ -53,7 +53,7 @@ const OrdersList = () => {
             <TableCell>Customer</TableCell>
             <TableCell>Total</TableCell>
             <TableCell>Order Date</TableCell>
-            <TableCell>Actions</TableCell>
+            <TableCell align="center">Actions</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -65,12 +65,13 @@ const OrdersList = () => {
               <TableCell>
                 {dayjs(order.createdAt).format("DD/MM/YYYY")}
               </TableCell>
-              <TableCell>
+              <TableCell align="center">
                 <Button
                   sx={{ marginRight: "0.5rem" }}
                   variant="text"
                   color="primary"
                   onClick={() => handleView(order.id)}
+                  
                 >
                   <Visibility />
                 </Button>

@@ -53,9 +53,8 @@ export class OrderController {
   }
 
   @Delete(':orderId')
-  delete(@Param(ValidationPipe) { customerId, orderId }: DeleteOrderDto) {
+  delete(@Param(ValidationPipe) { orderId }: DeleteOrderDto) {
     return this.deleteOrderCommand.execute({
-      customerId,
       orderId,
     });
   }

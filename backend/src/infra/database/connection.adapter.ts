@@ -33,8 +33,8 @@ export class TypeOrmConnectionAdapter
 
   private async connectWithRetry(
     connection: DataSource,
-    retries = 3,
-    delay = 3000,
+    retries = 5,
+    delay = 5000,
   ) {
     for (let attempt = 1; attempt <= retries; attempt++) {
       try {

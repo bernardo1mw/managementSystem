@@ -16,9 +16,5 @@ import {
 export class DeleteOrderDto {
   @IsNotEmpty()
   @IsNumberString()
-  customerId: number;
-
-  @IsNotEmpty()
-  @IsNumberString()
   orderId: number;
 }

@@ -106,4 +106,16 @@ export class OrderRepositoryTypeORMAdapter implements OrderRepository {
         .execute();
     });
   }
+
+  async delete(order: Order): Promise<void> {
+    const repository = this.connection.getRepository(OrderEntity);
+    const orderEntity = repository.create({
+      id: order.getState().id,
+      uuid: order.getState().uuid,
+      createdAt: order.getState().createdAt,
+      updatedAt: order.getState().updatedAt,
+      deletedAt: order.getState().deletedAt,
+    });
+    await repository.save(orderEntity, { reload: false });
+  }
 }
