@@ -38,10 +38,6 @@ const Navbar = () => {
           </Link>
           {isAuthenticated ? (
             <>
-              <Typography>
-                {" "}
-                Bem vindo {localStorage.getItem("email")}
-              </Typography>
               <Link href="/signin" passHref>
                 <Button
                   color="inherit"
