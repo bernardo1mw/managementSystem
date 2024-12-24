@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import Link from "next/link";
 import {
   Typography,
   Button,
@@ -24,9 +24,7 @@ const CustomersPage = () => {
   const [error, setError] = useState('');
   const {
     customers,
-    getCustomers,
-    createNewCustomer,
-    formatCNPJ
+    formatCNPJ,
   } = useCustomersHook()
   
 
@@ -51,6 +49,7 @@ const CustomersPage = () => {
                 <TableCell>CNPJ</TableCell>
                 <TableCell>E-mail</TableCell>
                 <TableCell>Data de criação</TableCell>
+                <TableCell>Ações</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -61,6 +60,20 @@ const CustomersPage = () => {
                   <TableCell>{formatCNPJ(customer.document)}</TableCell>
                   <TableCell>{customer.email}</TableCell>
                   <TableCell>{dayjs(customer.createdAt).format("DD/MM/YYYY")}</TableCell>
+                  <TableCell>
+                    <Link href={`/customers/${customer.id}`} passHref>
+                      <Button variant="outlined" sx={{ marginY: "0.5rem" ,marginX: "0.5rem" }}>
+                        Editar
+                      </Button>
+                    </Link>
+                    {/* <Button
+                      variant="outlined"
+                      color="error"
+                      onClick={() => handleDeleteButton(product)}
+                    >
+                      Deletar
+                    </Button> */}
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

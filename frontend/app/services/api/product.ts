@@ -23,7 +23,7 @@ export const fetchProduct = async (productId: string) => {
 
 export const createProduct = async (input: FormData) => {
   try {
-    const response = await axios.post(`http://localhost:3000/products/create`, input, {
+    const response = await Axios.post(`/products/create`, input, {
       headers: {
         "Authorization": localStorage.getItem("token"),
         "Content-Type": "multipart/form-data",

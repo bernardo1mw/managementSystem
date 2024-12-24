@@ -27,7 +27,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
 
   const isLogged = async () => {
-    console.log("STORAGE: ", localStorage)
     const loggedUser = await verify();
     if (loggedUser) {
       setUser(loggedUser);

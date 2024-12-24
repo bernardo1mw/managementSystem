@@ -70,10 +70,12 @@ export class ProductController {
   }
 
   @Put(':productId')
+  @UseInterceptors(FilesInterceptor('files'))
   update(
     @Request() req,
     @Param('productId') productId: number,
     @Body() { description, price, stock }: UpdateProductDto,
+    @UploadedFiles() files: Array<Express.Multer.File>,
   ) {
     return this.updateProductCommand.execute({
       userId: req.user,
@@ -81,6 +83,7 @@ export class ProductController {
       description: description,
       price: price,
       stock: stock,
+      images: files,
     });
   }
 

@@ -7,10 +7,12 @@ import { FindAllCustomersQuery } from 'src/app/commands/customer/find-all-custom
 import CustomerRepository from 'src/domain/repository/customer.repository';
 import { RepositoryProviderEnum } from '../repository/repository.providers';
 import { CreateCustomerCommand } from 'src/app/commands/customer/create-customer.command';
+import { FindCustomerQuery } from 'src/app/commands/customer/find-customer.query';
 
 export enum CustomerProviderEnum {
   FindAllCustomersQuery = 'FindAllCustomersQuery',
   CreateCustomerCommand = 'CreateCustomerCommand',
+  FindCustomerQuery = 'FindCustomerQuery'
 }
 
 const findAllCustomersQueryProvider: FactoryProvider<FindAllCustomersQuery> = {
@@ -37,7 +39,18 @@ const createCustomerQueryProvider: FactoryProvider<CreateCustomerCommand> = {
   ],
 };
 
+const findCustomerQueryProvider: FactoryProvider<FindCustomerQuery> = {
+  provide: CustomerProviderEnum.FindCustomerQuery,
+  useFactory: (
+    customerRepository: CustomerRepository,
+  ) => new FindCustomerQuery(customerRepository),
+  inject: [
+    RepositoryProviderEnum.CustomerRepository,
+  ],
+}
+
 export const customerProviders: Provider[] = [
   findAllCustomersQueryProvider,
+  findCustomerQueryProvider,
   createCustomerQueryProvider,
 ];

@@ -13,6 +13,7 @@ export function useProductDetailsHook(id: string) {
   const [product, setProduct] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [images, setImages] = useState<File[]>([]);
 
   const getProduct = async () => {
     const product = await fetchProduct(id);
@@ -36,7 +37,7 @@ export function useProductDetailsHook(id: string) {
         description: form.description,
         price: parseFloat(form.price),
         stock: parseInt(form.stock),
-        images: form.images,
+        images: images,
       });
       await getProduct();
       showNotification("Produto atualizado com sucesso", "success");
@@ -83,6 +84,13 @@ export function useProductDetailsHook(id: string) {
     setForm({ ...form, [e.target.name]: numericValue });
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setImages(Array.from(e.target.files));
+    }
+  };
+
+
   return {
     isLoading,
     form,
@@ -92,6 +100,8 @@ export function useProductDetailsHook(id: string) {
     handleUpdateProduct,
     handleModal,
     handleDeleteProduct,
+    handleImageChange,
     isModalOpen,
+    product
   };
 }

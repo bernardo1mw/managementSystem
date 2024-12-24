@@ -9,7 +9,7 @@ import { useParams } from "next/navigation";
 const EditProductPage = () => {
   // const router = useRouter();
   const { id } = useParams<{ id: string }>();
-  const { isLoading, handleDeleteProduct, isModalOpen, form, handleChange, handlePriceChange, handleUpdateProduct, handleModal } =
+  const { isLoading, handleDeleteProduct, handleImageChange, isModalOpen, form, handleChange, handlePriceChange, handleUpdateProduct, handleModal } =
     useProductDetailsHook(id);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -53,6 +53,16 @@ const EditProductPage = () => {
           onChange={handleChange}
           sx={{ marginBottom: "1rem" }}
         />
+         <Button variant="contained" component="label">
+        Selecionar Imagens
+        <input
+          type="file"
+          multiple
+          accept="image/*"
+          hidden
+          onChange={handleImageChange}
+        />
+      </Button>
         <Button type="submit" variant="contained" sx={{ marginRight: "0.5rem" }}>
           Salvar
         </Button>

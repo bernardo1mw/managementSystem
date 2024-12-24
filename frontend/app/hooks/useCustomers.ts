@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createCustomer, fetchAllCustomers, getCompanyData } from "../services/api/customer";
+import { createCustomer, fetchAllCustomers, getCompanyData, updateCustomer } from "../services/api/customer";
 import { useNotification } from "../context/NotificationContext";
 
 export function useCustomersHook() {
@@ -36,6 +36,31 @@ export function useCustomersHook() {
     }
   };
 
+  // const handleUpdate = async (e: React.FormEvent) => {
+  const handleUpdateCustomer = async (
+  //   input: {
+  //   businessName: string;
+  //   document: string;
+  //   email: string;
+  // }
+  e: React.FormEvent) => {
+    
+    
+    try {
+      e.preventDefault();
+      setIsLoading(true);
+      await updateCustomer({businessName,
+        document,
+        email,});
+      await getCustomers();
+      showNotification("Cliente cadastrado com sucesso", "success");
+    } catch (err) {
+      showNotification(`${err} Falha ao cadastrar cliente`, "error");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   const formatCNPJ = (value: string) => {
     return value
       .replace(/\D/g, "") // Remove caracteres não numéricos
@@ -60,7 +85,6 @@ export function useCustomersHook() {
     
   };
 
-
   return {
     customers,
     getCustomers,
@@ -74,5 +98,6 @@ export function useCustomersHook() {
     setDocument,
     email,
     setEmail,
+    handleUpdateCustomer
   };
 }
